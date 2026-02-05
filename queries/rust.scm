@@ -235,6 +235,13 @@
   (tuple_expression)
 ] @list
 
+;;!! let Foo {bar: baz} = bongo;
+;;!           ^^^^^^^^
+(struct_pattern
+  "{" @map.start @collectionKey.iteration.start.endOf @value.iteration.start.endOf
+  "}" @map.end @collectionKey.iteration.end.startOf @value.iteration.end.startOf
+)
+
 ;;!! match value {}
 (match_expression
   value: (_) @value
@@ -242,7 +249,7 @@
     "{" @branch.iteration.start.endOf @condition.iteration.start.endOf
     "}" @branch.iteration.end.startOf @condition.iteration.end.startOf
   )
-) @value.domain @branch.iteration.domain @condition.iteration.domain
+) @value.domain
 
 ;;!! #[derive(Debug)]
 ;;!  ^^^^^^^^^^^^^^^^
@@ -371,7 +378,7 @@
 (closure_expression
   body: (_) @value
   (#not-type? @value block)
-)
+) @value.domain
 
 ;;!! while v < 0 {}
 ;;!        ^^^^^

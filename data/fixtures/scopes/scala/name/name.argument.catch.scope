@@ -17,14 +17,15 @@ catch {
           >-<
 2|     case e: Exception => 0
 
-[#1 Domain] = 2:4-2:26
-      >----------------------<
+[#1 Domain] = 2:9-2:21
+           >------------<
 2|     case e: Exception => 0
 
 [#1 Insertion delimiter] = " "
 
 
-[#2 Content] = 3:9-3:10
+[#2 Content] =
+[#2 Domain] = 3:9-3:10
            >-<
 3|     case e => 0
 
@@ -38,10 +39,6 @@ catch {
 
 [#2 Trailing delimiter] = 3:10-3:11
             >-<
-3|     case e => 0
-
-[#2 Domain] = 3:4-3:15
-      >-----------<
 3|     case e => 0
 
 [#2 Insertion delimiter] = " "

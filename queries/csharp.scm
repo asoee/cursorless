@@ -135,13 +135,6 @@
 ;;!  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 (try_statement) @branch.iteration
 
-[
-  (for_statement)
-  (for_each_statement)
-  (while_statement)
-  (do_statement)
-] @branch
-
 ;;!! foreach (int value in values) {}
 ;;!               ^^^^^
 (for_each_statement
@@ -156,6 +149,7 @@
   condition: (_) @condition
   consequence: (_) @branch
 ) @condition.domain @branch.iteration
+
 (conditional_expression
   alternative: (_) @branch
 )
@@ -271,12 +265,15 @@
   )
 ] @functionCallee.domain
 
-(switch_statement
-  (tuple_expression) @value
-) @value.domain
-
+;;!! switch (foo) { }
+;;!          ^^^
+;;!                ^
 (switch_statement
   value: (_) @value
+  body: (switch_body
+    "{" @branch.iteration.start.endOf @condition.iteration.start.endOf
+    "}" @branch.iteration.end.startOf @condition.iteration.end.startOf
+  )
 ) @value.domain
 
 (_
@@ -320,13 +317,6 @@
   (#not-type? @_dummy block)
 ) @interior.end.endOf
 
-(switch_statement
-  body: (switch_body
-    "{" @branch.iteration.start.endOf @condition.iteration.start.endOf
-    "}" @branch.iteration.end.startOf @condition.iteration.end.startOf
-  )
-) @branch.iteration.domain
-
 (object_creation_expression
   initializer: (_) @map @list
 )
@@ -348,32 +338,15 @@
   (initializer_expression) @list
 )
 
-;;!! FirstName = "Craig"
-;;!  ^^^^^^^^^
-(initializer_expression
-  (assignment_expression
-    left: (_) @collectionKey
-  ) @_.domain
-)
-
 (initializer_expression
   "{" @collectionKey.iteration.start.endOf @value.iteration.start.endOf
   "}" @collectionKey.iteration.end.startOf @value.iteration.end.startOf
 )
 
-;;!! String aaa;
+;;!! String foo = 0
+;;!  ^^^^^^
 ;;!         ^^^
-(_
-  (variable_declaration
-    type: (_) @type
-    (variable_declarator
-      (identifier) @name
-    )
-  )
-) @_.domain
-
-;;!! String aaa = "bbb";
-;;!         ^^^
+;;!               ^
 (_
   (variable_declaration
     type: (_) @type
@@ -381,7 +354,7 @@
       (identifier) @name @value.leading.endOf
       (equals_value_clause
         (_) @value
-      )
+      )?
     )
   )
 ) @_.domain
@@ -393,10 +366,19 @@
 (_
   (assignment_expression
     left: (_) @name @value.leading.endOf
-    right: (_) @value
+    right: (_) @value @name.trailing.startOf
   ) @_.domain.start
   .
   ";"? @_.domain.end
+)
+
+;;!! new Foo { aaa = 0 }
+;;!            ^^^
+(initializer_expression
+  (assignment_expression
+    left: (_) @collectionKey
+    right: (_) @collectionKey.trailing.startOf
+  ) @_.domain
 )
 
 (_

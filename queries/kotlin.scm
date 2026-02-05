@@ -64,14 +64,21 @@
 ;;!             ^^^
 (function_declaration
   (simple_identifier) @name
-  (function_value_parameters) @type.leading.endOf @value.leading.start.endOf
+  (function_value_parameters) @type.leading.endOf
   (type_modifiers)? @type.start
-  (user_type)? @type.end @value.leading.start.endOf
+  (user_type)? @type.end
+) @namedFunction @_.domain
+
+;;!! fun foo(): Int = 0
+;;!                   ^
+(function_declaration
+  (_) @value.leading.start.endOf
+  .
   (function_body
     "="
     (_) @value
-  )?
-) @namedFunction @_.domain
+  )
+) @value.domain
 
 ;;!! constructor() {}
 (secondary_constructor
@@ -188,14 +195,14 @@
 ;;!! finally {}
 (finally_block) @branch
 
-;;!! when (true) { }
+;;!! when (foo) { }
 ;;!              ^
 (when_expression
   "{" @branch.iteration.start.endOf @condition.iteration.start.endOf
   "}" @branch.iteration.end.startOf @condition.iteration.end.startOf
-) @branch.iteration.domain @condition.iteration.domain
+)
 
-;;!! when (true) {}
+;;!! when (foo) {}
 ;;!        ^^^
 (when_expression
   (when_subject
@@ -221,14 +228,14 @@
 ;;!! 0 -> break
 (when_entry) @branch
 
-;;!! 0, 1 -> break
-;;!  ^  ^
+;;!! 0 -> break
+;;!  ^
 (when_entry
-  [
-    (when_condition)
-    "else"
-  ] @condition
-  (#allow-multiple! @condition)
+  .
+  (when_condition) @condition.start
+  (when_condition)? @condition.end
+  .
+  "->"
 ) @condition.domain
 
 ;;!! 0 -> break
@@ -296,28 +303,16 @@
 ;;!       ^^^^^^^^^^^^^^^^^^
 ;;!                             ^^^
 (property_declaration
-  (multi_variable_declaration) @name.iteration @type.iteration @value.leading.endOf
+  (multi_variable_declaration) @name @value.leading.endOf
   (_) @value
-) @value.domain @name.iteration.domain @type.iteration.domain
-
-;;!! val (foo: Int, bar: Int) = baz
-;;!       ^^^       ^^^
-;;!            ^^^       ^^^
-(property_declaration
-  (multi_variable_declaration
-    (variable_declaration
-      (simple_identifier) @name @type.leading.endOf
-      (user_type)? @type
-    ) @_.domain
-  )
-)
+) @_.domain
 
 ;;!! foo = 0
 ;;!  ^^^
 ;;!        ^
 (assignment
   (directly_assignable_expression) @name @value.leading.endOf
-  (_) @value
+  (_) @value @name.trailing.startOf
   .
 ) @_.domain
 
@@ -373,8 +368,8 @@
 (infix_expression
   (_) @collectionKey @value.leading.endOf
   (simple_identifier) @_dummy
-  (_) @value
-  (#eq? @_dummy "to")
+  (_) @value @collectionKey.trailing.startOf
+  (#eq? @_dummy to)
 ) @_.domain
 
 ;;!! mapOf( )
@@ -387,7 +382,7 @@
       ")" @collectionKey.iteration.end.startOf
     )
   )
-  (#eq? @_dummy "mapOf")
+  (#eq? @_dummy mapOf)
 )
 
 ;;!! foo<T>()
@@ -648,7 +643,7 @@
 (value_argument
   (simple_identifier) @name @value.leading.endOf
   "="
-  (_) @value
+  (_) @value @name.trailing.startOf
 ) @_.domain
 
 ;;!! var foo: Map<Int, Int>

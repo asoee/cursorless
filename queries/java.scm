@@ -189,9 +189,11 @@
 ;;!  ------------------------
 (switch_block_statement_group
   (switch_label
-    (_) @condition
+    .
+    (_) @condition.start
+    (_)? @condition.end
+    .
   )
-  (#allow-multiple! @condition)
 ) @condition.domain
 
 ;;!! case "0" -> "zero";
@@ -199,7 +201,10 @@
 ;;!  -------------------
 (switch_rule
   (switch_label
-    (_) @condition
+    .
+    (_) @condition.start
+    (_)? @condition.end
+    .
   )
 ) @condition.domain
 
@@ -218,12 +223,17 @@
   (#not-type? @_dummy block)
 ) @interior.end.endOf
 
+;;!! switch (value) { }
+;;!          ^^^^^
+;;!                  ^
 (switch_expression
+  condition: (_) @value
+  (#child-range! @value 0 -1 true true)
   body: (_
     "{" @branch.iteration.start.endOf @condition.iteration.start.endOf
     "}" @condition.iteration.end.startOf @branch.iteration.end.startOf
   )
-) @condition.iteration.domain @branch.iteration.domain
+) @value.domain
 
 ;;!! if () {} else {}
 ;;!  ^^^^^^^^^^^^^^^^
@@ -283,31 +293,21 @@
 
 ;;!! for (int i = 0; i < 5; ++i) {}
 ;;!                  ^^^^^
-;;!  ------------------------------
 (for_statement
   condition: (_) @condition
-) @branch @_.domain
+) @condition.domain
 
 ;;!! while (value) {}
 ;;!         ^^^^^
-;;!  ----------------
 (while_statement
   condition: (_) @condition
   (#child-range! @condition 0 -1 true true)
-) @branch @_.domain
+) @condition.domain
 
 (do_statement
   condition: (_) @condition
   (#child-range! @condition 0 -1 true true)
-) @branch @_.domain
-
-;;!! switch (value) {}
-;;!          ^^^^^
-;;!  -----------------
-(switch_expression
-  condition: (_) @value
-  (#child-range! @value 0 -1 true true)
-) @_.domain
+) @condition.domain
 
 ;;!! true ? 0 : 1
 ;;!  ^^^^
@@ -316,6 +316,7 @@
   condition: (_) @condition
   consequence: (_) @branch
 ) @condition.domain @branch.iteration
+
 (ternary_expression
   alternative: (_) @branch
 )

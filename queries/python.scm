@@ -77,13 +77,20 @@
 ;;!  -----------
 (assignment
   left: (_) @name
-  right: (_)? @_.trailing.startOf
-) @_.domain
+  right: (_)? @name.trailing.startOf
+) @name.domain
+
+;;!! foo(aaa=1, bbb=2)
+;;!      ^^^     ^^^
+(keyword_argument
+  name: (_) @name
+  value: (_) @name.trailing.startOf
+) @name.domain
 
 (_
   name: (_) @name
-  (#not-parent-type? @name function_definition class_definition)
-) @_.domain
+  (#not-parent-type? @name function_definition class_definition keyword_argument)
+) @name.domain
 
 ;;!! def aaa(bbb):
 ;;!          ^^^
@@ -148,11 +155,11 @@
 ;;!           ---------------
 (
   (_
-    (_) @_.leading.endOf
+    (_) @value.leading.endOf
     .
     value: (_) @value
-  ) @_.domain
-  (#not-type? @_.domain subscript)
+  ) @value.domain
+  (#not-type? @value.domain subscript)
 )
 
 ;;!! return 1
@@ -333,8 +340,8 @@
 (
   (class_definition
     name: (_) @name
-  ) @_.domain
-  (#not-parent-type? @_.domain decorated_definition)
+  ) @name.domain
+  (#not-parent-type? @name.domain decorated_definition)
 )
 
 ;;!! @value
@@ -347,7 +354,7 @@
   (class_definition
     name: (_) @name
   )
-) @_.domain
+) @name.domain
 
 (
   (module) @statement.iteration @class.iteration @namedFunction.iteration
@@ -401,12 +408,6 @@
   function: (_) @functionCallee
 ) @_.domain
 
-;;!! match value:
-;;!        ^^^^^
-(match_statement
-  subject: (_) @value
-) @_.domain
-
 ;;!! { "value": 0 }
 ;;!    ^^^^^^^
 ;;!    xxxxxxxxx
@@ -425,6 +426,14 @@
   condition: (_) @condition
 ) @_.domain
 
+;;!! match foo: pass
+;;!        ^^^
+;;!             ^^^^
+(match_statement
+  subject: (_) @value
+  body: (_) @branch.iteration @condition.iteration
+) @value.domain
+
 ;;!! case value:
 ;;!        ^^^^^
 (case_clause
@@ -435,10 +444,6 @@
 ;;!! case 0: pass
 ;;!  ^^^^^^^^^^^^
 (case_clause) @branch
-
-(match_statement
-  body: (_) @branch.iteration @condition.iteration
-) @branch.iteration.domain @condition.iteration.domain
 
 ;;!! 1 if True else 0
 ;;!       ^^^^
