@@ -1,4 +1,4 @@
-import { HatStability } from "@cursorless/common";
+import { HatStability, LATEST_VERSION } from "@cursorless/common";
 import {
   getCursorlessApi,
   openNewEditor,
@@ -28,7 +28,8 @@ async function runTest() {
   await hatTokenMap.allocateHats();
 
   await runCursorlessCommand({
-    version: 7,
+    version: LATEST_VERSION,
+    usePrePhraseSnapshot: false,
     action: {
       name: "wrapWithSnippet",
       snippetDescription: {
@@ -45,7 +46,6 @@ async function runTest() {
         },
       },
     },
-    usePrePhraseSnapshot: false,
   });
 
   assert.deepStrictEqual(
