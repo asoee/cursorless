@@ -2,6 +2,7 @@ import type {
   ScopeSupportFacet,
   ScopeType,
   PlaintextScopeSupportFacet,
+  ScopeRangeConfig,
 } from "@cursorless/common";
 import {
   asyncSafety,
@@ -132,9 +133,10 @@ async function runTest(file: string, languageId: string, facetId: string) {
   await openNewEditor(code, { languageId });
 
   const editor = ide.activeTextEditor!;
+  const updateFixture = shouldUpdateFixtures();
 
   const [outputFixture, numScopes] = ((): [string, number] => {
-    const config = {
+    const config: ScopeRangeConfig = {
       visibleOnly: false,
       scopeType,
     };
@@ -147,6 +149,16 @@ async function runTest(file: string, languageId: string, facetId: string) {
           includeNestedTargets: false,
         },
       );
+
+      if (!updateFixture) {
+        assert.isFalse(
+          iterationScopes.some((s) =>
+            s.ranges.some((r) => !s.domain.contains(r.range)),
+          ),
+          "Iteration range should not contain the domain",
+        );
+      }
+
       return [
         serializeIterationScopeFixture(code, iterationScopes),
         iterationScopes.length,
@@ -155,10 +167,25 @@ async function runTest(file: string, languageId: string, facetId: string) {
 
     const scopes = scopeProvider.provideScopeRanges(editor, config);
 
+    if (!updateFixture) {
+      assert.isFalse(
+        scopes.some((s) =>
+          s.targets.some((t) => !s.domain.contains(t.contentRange)),
+        ),
+        "Content range should not contain the domain",
+      );
+      assert.isFalse(
+        scopes.some((s) =>
+          s.targets.some((t) => !s.domain.contains(t.contentRange)),
+        ),
+        "Content range should not contain the removal range",
+      );
+    }
+
     return [serializeScopeFixture(facetId, code, scopes), scopes.length];
   })();
 
-  if (shouldUpdateFixtures()) {
+  if (updateFixture) {
     await fsp.writeFile(file, outputFixture);
   } else {
     assert.isAbove(numScopes, 0, "No scopes found");
