@@ -41,6 +41,7 @@
   ;; Disabled on purpose. We have a better definition of this below.
   ;; (if_statement)
   ;; (enum_declaration)
+  ;; (local_variable_declaration)
 ] @statement
 
 (
@@ -335,13 +336,6 @@
   ")" @type.iteration.end.startOf @name.iteration.end.startOf
 )
 
-;;!! List<String> list = value;
-;;!  ^^^^^^^^^^^^
-;;!  --------------------------
-(local_variable_declaration
-  type: (_) @type
-) @_.domain
-
 ;;!! name = new ArrayList<String>();
 ;;!             ^^^^^^^^^^^^^^^^^
 ;;!         -----------------------
@@ -412,38 +406,42 @@
   value: (_) @value
 ) @branch @_.domain
 
-;;!! int value = 0;
-;;!              ^
-;;!           xxxx
-;;!  --------------
-(local_variable_declaration
-  (variable_declarator
-    name: (_) @name @value.leading.endOf
-    value: (_)? @value @name.trailing.startOf
-  )
-) @_.domain
-
-;;!! int value = 0;
+;;!! int foo = 0;
 ;;!  ^^^
-;;!      ^^^^^
-;;!              ^
+;;!      ^^^
+;;!            ^
+(local_variable_declaration
+  type: (_) @type
+  (variable_declarator
+    name: (_) @name @value.leading.endOf @name.removal.end.endOf
+    value: (_)? @value @name.removal.end.startOf
+  )
+) @_.domain @name.removal.start.startOf
+
+;;!! int foo = 0;
+;;!  ^^^
+;;!      ^^^
+;;!            ^
 (field_declaration
   type: (_) @type
   (variable_declarator
-    name: (_) @name @value.leading.endOf
-    value: (_)? @value @name.trailing.startOf
+    name: (_) @name @value.leading.endOf @name.removal.end.endOf
+    value: (_)? @value @name.removal.end.startOf
   )
-) @_.domain
+) @_.domain @name.removal.start.startOf
 
 ;;!! int value;
 ;;!  ^^^
 ;;!      ^^^^^
-(constant_declaration
-  type: (_) @type
-  (variable_declarator
-    name: (_) @name
-  )
-) @_.domain
+(interface_body
+  (constant_declaration
+    type: (_) @type
+    (variable_declarator
+      name: (_) @name @name.removal.end.endOf @value.leading.endOf
+      value: (_)? @value @name.removal.end.startOf
+    )
+  ) @_.domain @name.removal.start.startOf
+)
 
 ;;!! int foo, bar;
 ;;!      ^^^  ^^^

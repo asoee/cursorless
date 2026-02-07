@@ -54,7 +54,7 @@ export const luaScopeSupport: LanguageScopeSupportFacetMap = {
   "argumentList.formal.method.multiLine": supported,
 
   "name.assignment": supported,
-  "name.assignment.pattern": supported,
+  "name.assignment.destructuring": supported,
   "name.argument.formal": supported,
   "name.argument.formal.iteration": supported,
   "name.argument.formal.method": supported,
@@ -62,8 +62,9 @@ export const luaScopeSupport: LanguageScopeSupportFacetMap = {
   "name.foreach": supported,
   "name.function": supported,
   "name.method": supported,
-  "name.variable": supported,
-  "name.variable.pattern": supported,
+  "name.variable.uninitialized": supported,
+  "name.variable.initialized": supported,
+  "name.variable.destructuring": supported,
   "name.iteration.block": supported,
   "name.iteration.document": supported,
 
@@ -71,7 +72,7 @@ export const luaScopeSupport: LanguageScopeSupportFacetMap = {
   "value.foreach": supported,
   "value.return": supported,
   "value.variable": supported,
-  "value.variable.pattern": supported,
+  "value.variable.destructuring": supported,
   "value.iteration.block": supported,
   "value.iteration.document": supported,
 
@@ -104,8 +105,11 @@ export const luaScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.doWhile": supported,
   "statement.for": supported,
   "statement.foreach": supported,
-  "statement.variable": supported,
   "statement.assignment": supported,
+  "statement.assignment.destructuring": supported,
+  "statement.variable.uninitialized": supported,
+  "statement.variable.initialized": supported,
+  "statement.variable.destructuring": supported,
   "statement.return": supported,
   "statement.break": supported,
   "statement.iteration.document": supported,
@@ -202,7 +206,8 @@ export const luaScopeSupport: LanguageScopeSupportFacetMap = {
   "type.argument.formal.method.iteration": notApplicable,
   "type.argument.catch": notApplicable,
   "type.return": notApplicable,
-  "type.variable": notApplicable,
+  "type.variable.uninitialized": notApplicable,
+  "type.variable.initialized": notApplicable,
   "type.typeArgument": notApplicable,
   "type.typeArgument.iteration": notApplicable,
   "type.alias": notApplicable,
@@ -307,6 +312,12 @@ export const luaScopeSupport: LanguageScopeSupportFacetMap = {
   // Notebook cell
   notebookCell: notApplicable,
   "interior.cell": notApplicable,
+
+  // Constant
+  "statement.constant": notApplicable,
+  "name.constant": notApplicable,
+  "value.constant": notApplicable,
+  "type.constant": notApplicable,
 
   // Miscellaneous
   "statement.misc": notApplicable,

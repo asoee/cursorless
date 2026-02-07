@@ -18,12 +18,12 @@ export const talonScopeSupport: LanguageScopeSupportFacetMap = {
 
   "name.assignment": supported,
   "name.command": supported,
-  "name.variable": supported,
+  "name.variable.initialized": supported,
   "name.iteration.block": supported,
   "name.iteration.document": supported,
 
   "statement.command": supported,
-  "statement.variable": supported,
+  "statement.variable.initialized": supported,
   "statement.assignment": supported,
   "statement.iteration.block": supported,
   "statement.iteration.document": supported,
@@ -263,10 +263,12 @@ export const talonScopeSupport: LanguageScopeSupportFacetMap = {
   "value.resource": notApplicable,
   "value.resource.iteration": notApplicable,
 
-  // Pattern destruction
-  "name.assignment.pattern": notApplicable,
-  "name.variable.pattern": notApplicable,
-  "value.variable.pattern": notApplicable,
+  // Pattern destructuring
+  "statement.variable.destructuring": notApplicable,
+  "statement.assignment.destructuring": notApplicable,
+  "name.assignment.destructuring": notApplicable,
+  "name.variable.destructuring": notApplicable,
+  "value.variable.destructuring": notApplicable,
 
   // Multiline string
   "string.multiLine": notApplicable,
@@ -325,6 +327,25 @@ export const talonScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.break": notApplicable,
   "statement.continue": notApplicable,
 
+  // Types
+  "type.variable.uninitialized": notApplicable,
+  "type.variable.initialized": notApplicable,
+  "type.cast": notApplicable,
+  "type.typeArgument": notApplicable,
+  "type.typeArgument.iteration": notApplicable,
+  "type.iteration.block": notApplicable,
+  "type.iteration.document": notApplicable,
+
+  // Constant
+  "statement.constant": notApplicable,
+  "name.constant": notApplicable,
+  "value.constant": notApplicable,
+  "type.constant": notApplicable,
+
+  // Uninitialized variables
+  "name.variable.uninitialized": notApplicable,
+  "statement.variable.uninitialized": notApplicable,
+
   // Miscellaneous
   list: notApplicable,
   map: notApplicable,
@@ -332,12 +353,6 @@ export const talonScopeSupport: LanguageScopeSupportFacetMap = {
   pairDelimiter: notApplicable,
   regularExpression: notApplicable,
   "statement.misc": notApplicable,
-  "type.variable": notApplicable,
-  "type.cast": notApplicable,
-  "type.typeArgument": notApplicable,
-  "type.typeArgument.iteration": notApplicable,
-  "type.iteration.block": notApplicable,
-  "type.iteration.document": notApplicable,
   selector: notApplicable,
   unit: notApplicable,
   disqualifyDelimiter: notApplicable,

@@ -29,20 +29,28 @@ export const yamlScopeSupport: LanguageScopeSupportFacetMap = {
 
   /* NOT APPLICABLE */
 
-  // Single line unenclosed item
-  "collectionItem.unenclosed.singleLine": notApplicable,
-
   // Variable
-  "statement.variable": notApplicable,
+  "statement.variable.uninitialized": notApplicable,
+  "statement.variable.initialized": notApplicable,
+  "statement.variable.destructuring": notApplicable,
   "statement.assignment": notApplicable,
+  "statement.assignment.destructuring": notApplicable,
   "name.assignment": notApplicable,
-  "name.assignment.pattern": notApplicable,
-  "name.variable": notApplicable,
-  "name.variable.pattern": notApplicable,
-  "type.variable": notApplicable,
+  "name.assignment.destructuring": notApplicable,
+  "name.variable.uninitialized": notApplicable,
+  "name.variable.initialized": notApplicable,
+  "name.variable.destructuring": notApplicable,
+  "type.variable.uninitialized": notApplicable,
+  "type.variable.initialized": notApplicable,
   "value.assignment": notApplicable,
   "value.variable": notApplicable,
-  "value.variable.pattern": notApplicable,
+  "value.variable.destructuring": notApplicable,
+
+  // Constant
+  "statement.constant": notApplicable,
+  "name.constant": notApplicable,
+  "value.constant": notApplicable,
+  "type.constant": notApplicable,
 
   // Class
   class: notApplicable,
@@ -328,6 +336,7 @@ export const yamlScopeSupport: LanguageScopeSupportFacetMap = {
   "type.iteration.document": notApplicable,
   "value.iteration.block": notApplicable,
   "value.iteration.document": notApplicable,
+  "collectionItem.unenclosed.singleLine": notApplicable,
   selector: notApplicable,
   unit: notApplicable,
 };

@@ -351,13 +351,13 @@
   (variable_declaration
     type: (_) @type
     (variable_declarator
-      (identifier) @name @value.leading.endOf
+      (identifier) @name @value.leading.endOf @name.removal.end.endOf
       (equals_value_clause
-        (_) @value
+        (_) @value @name.removal.end.startOf
       )?
     )
   )
-) @_.domain
+) @_.domain @name.removal.start.startOf
 
 ;;!! aaa = "bbb";
 ;;!  ^^^
@@ -383,7 +383,7 @@
 
 (_
   name: (_) @name
-  (#not-parent-type? @name catch_declaration)
+  (#not-parent-type? @name catch_declaration enum_member_declaration)
 ) @_.domain
 
 (
@@ -412,8 +412,8 @@
 ;;!! bar = 0
 ;;!        ^
 (enum_member_declaration
-  name: (_) @value.leading.endOf
-  value: (_) @value
+  name: (_) @name @value.leading.endOf
+  value: (_) @value @name.trailing.startOf
 ) @_.domain
 
 ;; Dictionary<string, int> values;

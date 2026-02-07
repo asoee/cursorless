@@ -128,7 +128,7 @@
 ;;!  ^^^   ^
 (enumerator
   name: (_) @name @value.leading.endOf
-  value: (_)? @value
+  value: (_)? @value @name.trailing.startOf
 ) @_.domain
 
 ;;!! void foo();
@@ -172,13 +172,14 @@
   declarator: (_
     !declarator
   ) @name
-) @statement @name.domain
+  .
+) @statement @name.domain @name.removal
 
 (field_declaration
   declarator: (_
     declarator: (_) @name
   )
-) @statement @name.domain
+) @statement @name.domain @name.removal
 
 (initializer_list) @list
 
@@ -202,7 +203,7 @@
   declarator: (_
     !declarator
   ) @name
-) @_.domain
+) @_.domain @name.removal
 
 ;;!! aaa = 0;
 (_

@@ -18,8 +18,10 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.for": supported,
   "statement.while": supported,
   "statement.doWhile": supported,
-  "statement.variable": supported,
   "statement.assignment": supported,
+  "statement.constant": supported,
+  "statement.variable.uninitialized": supported,
+  "statement.variable.initialized": supported,
   "statement.return": supported,
   "statement.break": supported,
   "statement.continue": supported,
@@ -90,7 +92,9 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "condition.switchCase.iteration": supported,
 
   "name.assignment": supported,
-  "name.variable": supported,
+  "name.constant": supported,
+  "name.variable.uninitialized": supported,
+  "name.variable.initialized": supported,
   "name.function": supported,
   "name.class": supported,
   "name.enum": supported,
@@ -104,6 +108,7 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "name.iteration.enum": supported,
 
   "value.assignment": supported,
+  "value.constant": supported,
   "value.variable": supported,
   "value.return": supported,
   "value.switch": supported,
@@ -113,7 +118,9 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "value.iteration.enum": supported,
   "value.iteration.document": supported,
 
-  "type.variable": supported,
+  "type.constant": supported,
+  "type.variable.uninitialized": supported,
+  "type.variable.initialized": supported,
   "type.argument.formal": supported,
   "type.argument.formal.iteration": supported,
   "type.field.class": supported,
@@ -181,10 +188,12 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "section.iteration.document": notApplicable,
   "section.iteration.parent": notApplicable,
 
-  // Pattern destructing
-  "name.assignment.pattern": notApplicable,
-  "name.variable.pattern": notApplicable,
-  "value.variable.pattern": notApplicable,
+  // Pattern destructuring
+  "statement.variable.destructuring": notApplicable,
+  "statement.assignment.destructuring": notApplicable,
+  "name.assignment.destructuring": notApplicable,
+  "name.variable.destructuring": notApplicable,
+  "value.variable.destructuring": notApplicable,
 
   // Command
   command: notApplicable,
