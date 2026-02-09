@@ -13,19 +13,23 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.enum": supported,
   "statement.field.class": supported,
   "statement.function": supported,
+  "statement.functionCall": supported,
   "statement.if": supported,
   "statement.switch": supported,
   "statement.for": supported,
   "statement.while": supported,
   "statement.doWhile": supported,
   "statement.assignment": supported,
+  "statement.assignment.compound": supported,
   "statement.constant": supported,
   "statement.variable.uninitialized": supported,
   "statement.variable.initialized": supported,
+  "statement.update": supported,
   "statement.return": supported,
   "statement.break": supported,
   "statement.continue": supported,
   "statement.namespace": supported,
+  "statement.import": supported,
   "statement.iteration.document": supported,
   "statement.iteration.class": supported,
   "statement.iteration.block": supported,
@@ -92,6 +96,7 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "condition.switchCase.iteration": supported,
 
   "name.assignment": supported,
+  "name.assignment.compound": supported,
   "name.constant": supported,
   "name.variable.uninitialized": supported,
   "name.variable.initialized": supported,
@@ -108,6 +113,7 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "name.iteration.enum": supported,
 
   "value.assignment": supported,
+  "value.assignment.compound": supported,
   "value.constant": supported,
   "value.variable": supported,
   "value.return": supported,
@@ -194,6 +200,7 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "name.assignment.destructuring": notApplicable,
   "name.variable.destructuring": notApplicable,
   "value.variable.destructuring": notApplicable,
+  "value.assignment.destructuring": notApplicable,
 
   // Command
   command: notApplicable,
@@ -204,6 +211,8 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
 
   // Type alias
   "type.alias": notApplicable,
+  "statement.typeAlias": notApplicable,
+  "name.typeAlias": notApplicable,
   "value.typeAlias": notApplicable,
 
   // Notebook cell
@@ -224,6 +233,7 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "type.field.interface": notApplicable,
   "type.iteration.interface": notApplicable,
   "interior.interface": notApplicable,
+  "value.field.interface": notApplicable,
 
   // Static
   "statement.static": notApplicable,
@@ -232,6 +242,14 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   // Yield
   "statement.yield": notApplicable,
   "value.yield": notApplicable,
+
+  // Throw statement
+  "statement.throw": notApplicable,
+  "value.throw": notApplicable,
+
+  // Enum calls
+  "functionCall.enum": notApplicable,
+  "functionCallee.enum": notApplicable,
 
   // Miscellaneous
   "key.attribute": notApplicable,
@@ -311,6 +329,7 @@ export const cScopeSupport: LanguageScopeSupportFacetMap = {
   "value.argument.formal.method.iteration": notApplicable,
   "value.argument.formal.method": notApplicable,
   "interior.method": notApplicable,
+  "type.return.method": notApplicable,
 
   // Try catch
   "statement.try": notApplicable,
@@ -340,4 +359,13 @@ export const cScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.namespace": notApplicable,
   "name.namespace": notApplicable,
   "interior.namespace": notApplicable,
+
+  // Exceptions
+
+  // Package/import
+  "statement.package": notApplicable,
+
+  // Generic calls
+  "functionCall.generic": notApplicable,
+  "functionCallee.generic": notApplicable,
 };

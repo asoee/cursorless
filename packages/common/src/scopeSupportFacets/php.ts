@@ -62,6 +62,10 @@ export const phpScopeSupport: LanguageScopeSupportFacetMap = {
   "value.constant": notApplicable,
   "type.constant": notApplicable,
 
+  // Throw statement
+  "statement.throw": notApplicable,
+  "value.throw": notApplicable,
+
   // Miscellaneous
   "name.variable.uninitialized": notApplicable,
 };

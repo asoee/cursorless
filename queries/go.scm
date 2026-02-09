@@ -4,12 +4,13 @@
 ;;  curl https://raw.githubusercontent.com/tree-sitter/tree-sitter-go/master/src/node-types.json | jq '[.[] | select(.type == "_statement" or .type == "_simple_statement") | .subtypes[].type]' | grep -v '\"_' | sed -n '1d;p' | sed '$d' | sort
 ;; and then cleaned up.
 [
+  (package_clause)
+  (import_declaration)
   (break_statement)
   (const_declaration)
   (continue_statement)
   (defer_statement)
   (empty_statement)
-  (expression_statement)
   (expression_switch_statement)
   (fallthrough_statement)
   (for_statement)
@@ -24,6 +25,8 @@
 
   ;; Disabled on purpose. We have a better definition of this below.
   ;; (if_statement)
+  ;; (expression_statement)
+
   ;; omit block for now, as it is not clear that it matches Cursorless user expectations
   ;; (block)
 ] @statement
@@ -38,6 +41,14 @@
     (dec_statement)
   ] @statement
   (#not-parent-type? @statement for_clause)
+)
+
+;;!! foo();
+;;!! ++foo;
+(_
+  (expression_statement) @statement.start
+  .
+  ";"? @statement.end
 )
 
 (
@@ -316,9 +327,9 @@
 (type_declaration
   (type_alias
     name: (_) @name @value.leading.endOf
-    type: (_) @value
+    type: (_) @value @name.removal.end.startOf
   )
-) @type @_.domain
+) @type @name.removal.start.startOf @_.domain
 
 ;;!! var foo Bar[int, string]
 ;;!              ^^^  ^^^^^^

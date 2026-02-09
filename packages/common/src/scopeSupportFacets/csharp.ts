@@ -21,10 +21,12 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "functionCall.constructor": supported,
   "functionCall.method": supported,
   "functionCall.chain": supported,
+  "functionCall.generic": supported,
   functionCallee: supported,
   "functionCallee.constructor": supported,
   "functionCallee.method": supported,
   "functionCallee.chain": supported,
+  "functionCallee.generic": supported,
 
   namedFunction: supported,
   "namedFunction.iteration.document": supported,
@@ -58,6 +60,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "name.argument.formal.method.iteration": supported,
   "name.argument.formal": supported,
   "name.argument.catch": supported,
+  "name.namespace": supported,
   "name.class": supported,
   "name.interface": supported,
   "name.enum": supported,
@@ -69,6 +72,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "name.function": supported,
   "name.method": supported,
   "name.assignment": supported,
+  "name.assignment.compound": supported,
   "name.constant": supported,
   "name.variable.uninitialized": supported,
   "name.variable.initialized": supported,
@@ -86,15 +90,18 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "value.argument.formal": supported,
   "value.field.class": supported,
   "value.field.enum": supported,
+  "value.field.interface": supported,
   "value.foreach": supported,
   "value.mapPair": supported,
   "value.mapPair.iteration": supported,
   "value.return.lambda": supported,
   "value.return": supported,
   "value.assignment": supported,
+  "value.assignment.compound": supported,
   "value.constant": supported,
   "value.variable": supported,
   "value.yield": supported,
+  "value.throw": supported,
   "value.switch": supported,
   "value.iteration.block": supported,
   "value.iteration.class": supported,
@@ -116,6 +123,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "type.field.class": supported,
   "type.field.interface": supported,
   "type.return": supported,
+  "type.return.method": supported,
   "type.constant": supported,
   "type.variable.uninitialized": supported,
   "type.variable.initialized": supported,
@@ -177,6 +185,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
 
   ifStatement: supported,
 
+  "statement.namespace": supported,
   "statement.class": supported,
   "statement.interface": supported,
   "statement.enum": supported,
@@ -185,6 +194,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.function": supported,
   "statement.constructor": supported,
   "statement.method": supported,
+  "statement.functionCall": supported,
   "statement.if": supported,
   "statement.try": supported,
   "statement.switch": supported,
@@ -193,13 +203,17 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.while": supported,
   "statement.doWhile": supported,
   "statement.assignment": supported,
+  "statement.assignment.compound": supported,
   "statement.constant": supported,
   "statement.variable.uninitialized": supported,
   "statement.variable.initialized": supported,
+  "statement.update": supported,
   "statement.return": supported,
   "statement.yield": supported,
+  "statement.throw": supported,
   "statement.break": supported,
   "statement.continue": supported,
+  "statement.import": supported,
   "statement.iteration.document": supported,
   "statement.iteration.class": supported,
   "statement.iteration.interface": supported,
@@ -213,6 +227,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "textFragment.comment.line": supported,
   "textFragment.comment.block": supported,
 
+  "interior.namespace": supported,
   "interior.class": supported,
   "interior.interface": supported,
   "interior.enum": supported,
@@ -271,10 +286,17 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   "name.assignment.destructuring": notApplicable,
   "name.variable.destructuring": notApplicable,
   "value.variable.destructuring": notApplicable,
+  "value.assignment.destructuring": notApplicable,
 
   // Type alias
   "type.alias": notApplicable,
+  "statement.typeAlias": notApplicable,
+  "name.typeAlias": notApplicable,
   "value.typeAlias": notApplicable,
+
+  // Enum calls
+  "functionCall.enum": notApplicable,
+  "functionCallee.enum": notApplicable,
 
   // Section
   section: notApplicable,
@@ -292,11 +314,6 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
   notebookCell: notApplicable,
   "interior.cell": notApplicable,
 
-  // Namespace
-  "statement.namespace": notApplicable,
-  "name.namespace": notApplicable,
-  "interior.namespace": notApplicable,
-
   // Branch loop
   "branch.loop": notApplicable,
   "branch.loop.iteration": notApplicable,
@@ -307,6 +324,7 @@ export const csharpScopeSupport: LanguageScopeSupportFacetMap = {
 
   // Miscellaneous
   "statement.misc": notApplicable,
+  "statement.package": notApplicable,
   environment: notApplicable,
   pairDelimiter: notApplicable,
   regularExpression: notApplicable,

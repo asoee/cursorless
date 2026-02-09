@@ -31,11 +31,16 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "type.iteration.class": supported,
   "type.iteration.interface": supported,
   "type.iteration.document": supported,
+  "type.return.method": supported,
+
+  "functionCall.generic": supported,
+  "functionCallee.generic": supported,
 
   "name.interface": supported,
   "name.enum": supported,
   "name.field.interface": supported,
   "name.field.enum": supported,
+  "name.typeAlias": supported,
   "name.iteration.interface": supported,
   "name.iteration.enum": supported,
 
@@ -43,6 +48,7 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.enum": supported,
   "statement.field.interface": supported,
   "statement.iteration.interface": supported,
+  "statement.typeAlias": supported,
 
   "value.typeAlias": supported,
   "value.field.enum": supported,
@@ -64,6 +70,12 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "interior.element": notApplicable,
   "textFragment.element": notApplicable,
 
+  // Enum calls
+  "functionCall.enum": notApplicable,
+  "functionCallee.enum": notApplicable,
+
   // Miscellaneous
   "type.foreach": notApplicable,
+  "statement.package": notApplicable,
+  "value.field.interface": notApplicable,
 };

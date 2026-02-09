@@ -488,6 +488,12 @@
   ";"? @_.domain.end
 )
 
+;;!! throw foo;
+;;!        ^^^
+(throw_statement
+  (_) @value
+) @value.domain
+
 ;;!! str => 0
 ;;!         ^
 ;;!  --------
@@ -617,7 +623,9 @@
 ;;!  ^^^
 ;;!  -----
 (call_expression
-  function: (_) @functionCallee
+  function: (_) @functionCallee.start
+  (_)? @functionCallee.end
+  arguments: (_)
 ) @_.domain
 
 ;;!! new Foo()
