@@ -166,11 +166,8 @@ export const cCoreScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.resource": notApplicable,
   "interior.resource": notApplicable,
   "type.resource": notApplicable,
-  "type.resource.iteration": notApplicable,
   "name.resource": notApplicable,
-  "name.resource.iteration": notApplicable,
   "value.resource": notApplicable,
-  "value.resource.iteration": notApplicable,
 
   // Map literal
   map: notApplicable,
@@ -281,6 +278,10 @@ export const cScopeSupport: LanguageScopeSupportFacetMap = {
   "argumentList.formal.lambda.empty": notApplicable,
   "argumentList.formal.lambda.multiLine": notApplicable,
   "argumentList.formal.lambda.singleLine": notApplicable,
+  "name.argument.formal.lambda": notApplicable,
+  "name.argument.formal.lambda.iteration": notApplicable,
+  "type.argument.formal.lambda": notApplicable,
+  "type.argument.formal.lambda.iteration": notApplicable,
   "interior.lambda": notApplicable,
   "value.return.lambda": notApplicable,
   anonymousFunction: notApplicable,

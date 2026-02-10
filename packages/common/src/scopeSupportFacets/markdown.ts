@@ -152,6 +152,10 @@ export const markdownScopeSupport: LanguageScopeSupportFacetMap = {
   "argument.formal.lambda.singleLine": notApplicable,
   "argument.formal.lambda.multiLine": notApplicable,
   "argument.formal.lambda.iteration": notApplicable,
+  "name.argument.formal.lambda": notApplicable,
+  "name.argument.formal.lambda.iteration": notApplicable,
+  "type.argument.formal.lambda": notApplicable,
+  "type.argument.formal.lambda.iteration": notApplicable,
   "value.return.lambda": notApplicable,
   "interior.lambda": notApplicable,
 
@@ -277,11 +281,8 @@ export const markdownScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.resource": notApplicable,
   "interior.resource": notApplicable,
   "name.resource": notApplicable,
-  "name.resource.iteration": notApplicable,
   "type.resource": notApplicable,
-  "type.resource.iteration": notApplicable,
   "value.resource": notApplicable,
-  "value.resource.iteration": notApplicable,
 
   // Single-line string
   "string.singleLine": notApplicable,

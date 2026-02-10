@@ -725,11 +725,6 @@ export const scopeSupportFacetInfos: Record<
     description: "Name in a 'with' / 'use' / 'using' statement",
     scopeType: "name",
   },
-  "name.resource.iteration": iteration(
-    "name",
-    "names in a 'with' / 'use' / 'using' statement",
-    "the resource list. The domain should be the entire statement",
-  ),
   "name.argument.actual": {
     description: "Name of a (keyword) argument in a function call",
     scopeType: "name",
@@ -737,7 +732,7 @@ export const scopeSupportFacetInfos: Record<
   "name.argument.actual.iteration": iteration(
     "name",
     "names of (keyword) arguments in a function call",
-    "the argument list.",
+    "the argument list",
   ),
   "name.argument.formal": {
     description: "Name of a parameter in a function declaration",
@@ -746,7 +741,7 @@ export const scopeSupportFacetInfos: Record<
   "name.argument.formal.iteration": iteration(
     "name",
     "names of formal parameters in a function declaration",
-    "the parameters list. The domain should be the entire function",
+    "the parameters list",
   ),
   "name.argument.formal.method": {
     description: "Name of a parameter in a class method declaration",
@@ -755,7 +750,16 @@ export const scopeSupportFacetInfos: Record<
   "name.argument.formal.method.iteration": iteration(
     "name",
     "names of formal parameters in a method declaration",
-    "the parameters list. The domain should be the entire method",
+    "the parameters list",
+  ),
+  "name.argument.formal.lambda": {
+    description: "Name of a parameter in a lambda declaration",
+    scopeType: "name",
+  },
+  "name.argument.formal.lambda.iteration": iteration(
+    "name",
+    "names of formal parameters in a lambda declaration",
+    "the parameters list",
   ),
   "name.argument.formal.constructor": {
     description: "The name of a parameter in a constructor declaration",
@@ -764,7 +768,7 @@ export const scopeSupportFacetInfos: Record<
   "name.argument.formal.constructor.iteration": iteration(
     "name",
     "names of formal parameters in a constructor declaration",
-    "the parameters list. The domain should be the entire constructor",
+    "the parameters list",
   ),
   "name.argument.catch": {
     description: "Name of a parameter in a catch clause",
@@ -871,11 +875,6 @@ export const scopeSupportFacetInfos: Record<
     description: "Value of a 'with' / 'use' / 'using' statement",
     scopeType: "value",
   },
-  "value.resource.iteration": iteration(
-    "value",
-    "values in a 'with' / 'use' / 'using' statement",
-    "the resource list. The domain should be the entire statement",
-  ),
   "value.argument.actual": {
     description: "The value of a (keyword) argument in a function call",
     scopeType: "value",
@@ -883,7 +882,7 @@ export const scopeSupportFacetInfos: Record<
   "value.argument.actual.iteration": iteration(
     "value",
     "values of (keyword) arguments in a function call",
-    "the arguments list.",
+    "the arguments list",
   ),
   "value.argument.formal": {
     description: "The value of a (keyword) argument in a function declaration",
@@ -892,7 +891,7 @@ export const scopeSupportFacetInfos: Record<
   "value.argument.formal.iteration": iteration(
     "value",
     "values of formal parameters in a function declaration",
-    "the parameters list. The domain should be the entire function",
+    "the parameters list",
   ),
   "value.argument.formal.method": {
     description: "The value of a parameter in a class method declaration",
@@ -901,7 +900,7 @@ export const scopeSupportFacetInfos: Record<
   "value.argument.formal.method.iteration": iteration(
     "value",
     "values of formal parameters in a method declaration",
-    "the parameters list. The domain should be the entire method",
+    "the parameters list",
   ),
   "value.argument.formal.constructor": {
     description: "The value of a parameter in a constructor declaration",
@@ -910,7 +909,7 @@ export const scopeSupportFacetInfos: Record<
   "value.argument.formal.constructor.iteration": iteration(
     "value",
     "values of formal parameters in a constructor declaration",
-    "the parameters list. The domain should be the entire constructor",
+    "the parameters list",
   ),
   "value.typeAlias": {
     description: "Value of a type alias declaration",
@@ -936,7 +935,7 @@ export const scopeSupportFacetInfos: Record<
   "type.argument.formal.iteration": iteration(
     "type",
     "types of formal parameters in a function declaration",
-    "the parameters list. The domain should be the entire function",
+    "the parameters list",
   ),
   "type.argument.formal.method": {
     description: "Type of a formal parameter in a class method declaration",
@@ -945,7 +944,16 @@ export const scopeSupportFacetInfos: Record<
   "type.argument.formal.method.iteration": iteration(
     "type",
     "types of formal parameters in a method declaration",
-    "the parameters list. The domain should be the entire method",
+    "the parameters list",
+  ),
+  "type.argument.formal.lambda": {
+    description: "Type of a formal parameter in a lambda declaration",
+    scopeType: "type",
+  },
+  "type.argument.formal.lambda.iteration": iteration(
+    "type",
+    "types of formal parameters in a lambda declaration",
+    "the parameters list",
   ),
   "type.argument.formal.constructor": {
     description: "Type of a formal parameter in a constructor declaration",
@@ -954,7 +962,7 @@ export const scopeSupportFacetInfos: Record<
   "type.argument.formal.constructor.iteration": iteration(
     "type",
     "types of formal parameters in a constructor declaration",
-    "the parameters list. The domain should be the entire constructor",
+    "the parameters list",
   ),
   "type.argument.catch": {
     description: "Type of a parameter in a catch clause",
@@ -1014,11 +1022,6 @@ export const scopeSupportFacetInfos: Record<
     description: "Type in a 'with' / 'use' / 'using' statement",
     scopeType: "type",
   },
-  "type.resource.iteration": iteration(
-    "type",
-    "types in a 'with' / 'use' / 'using' statement",
-    "the resource list. The domain should be the entire statement",
-  ),
   "type.iteration.block": blockIter("type", "types"),
   "type.iteration.class": classIter("type", "types"),
   "type.iteration.interface": interfaceIter("type", "types"),

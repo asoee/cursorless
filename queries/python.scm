@@ -181,82 +181,9 @@
 
 ;;!! with aaa:
 ;;!       ^^^
-;;!  --------
-(
-  (with_statement
-    (with_clause
-      (with_item)? @_.leading.endOf
-      .
-      (with_item
-        value: (_) @value @name
-      )
-      .
-      (with_item)? @_.trailing.startOf
-    )
-  ) @_.domain
-  (#not-type? @value "as_pattern")
-  (#allow-multiple! @value @name)
-)
-
-;;!! with aaa:
-;;!       ^^^
-;;!  --------
-(
-  (with_statement
-    (with_clause
-      (with_item)? @_.leading.endOf
-      .
-      (with_item
-        value: (_) @value @name
-      )
-      .
-      (with_item)? @_.trailing.startOf
-    ) @_with_clause
-  )
-  (#not-type? @value "as_pattern")
-  (#has-multiple-children-of-type? @_with_clause "with_item")
-  (#allow-multiple! @value @name)
-)
-
-;;!! with aaa as bbb:
-;;!       ^^^        <~~ value
-;;!              ^^^ <~~ name
-;;!  ----------------
-(
-  (with_statement
-    (with_clause
-      (with_item
-        value: (as_pattern
-          (_) @value @name.leading.endOf
-          alias: (_) @name @value.trailing.startOf
-        )
-      )
-    )
-  ) @_.domain
-  (#allow-multiple! @value @name)
-)
-
-;;!! with aaa as ccc, bbb:
-;;!       ^^^         ^^^
-;;!       ----------  ---
-(
-  (with_statement
-    (with_clause
-      (with_item
-        value: (as_pattern
-          (_) @value @name.leading.endOf
-          alias: (_) @name @value.trailing.startOf
-        )
-      ) @_.domain
-    ) @_with_clause
-  )
-  (#has-multiple-children-of-type? @_with_clause "with_item")
-  (#allow-multiple! @value @name)
-)
-
 (with_statement
-  (with_clause) @name.iteration @value.iteration
-) @name.iteration.domain @value.iteration.domain
+  (with_clause) @name
+) @name.domain
 
 ;;!! lambda str: len(str) > 0
 ;;!              ^^^^^^^^^^^^
@@ -686,14 +613,21 @@
 ;;!  ^^^^^^^^^^^^^^
 (lambda) @anonymousFunction
 
-;;!! lambda a, b: pass
-;;!         ^^^^
+;;!! lambda aaa, bbb: pass
+;;!         ^^^^^^^^
 (lambda
-  (lambda_parameters) @argumentList @argumentOrParameter.iteration
+  (lambda_parameters) @argumentList @argumentOrParameter.iteration @name.iteration
   (#insertion-delimiter! @argumentList ", ")
 ) @argumentList.domain @argumentOrParameter.iteration.domain
 
+;;!! lambda aaa, bbb: pass
+;;!         ^^^  ^^^
+(lambda_parameters
+  (_) @name
+)
+
 ;;!! lambda: pass
+;;!        ><
 (lambda
   .
   "lambda" @argumentList.start.endOf
