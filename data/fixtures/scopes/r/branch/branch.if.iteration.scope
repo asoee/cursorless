@@ -5,7 +5,6 @@ if (TRUE) {
 ---
 
 [Content] =
-[Removal] =
 [Domain] = 0:0-3:1
   >-----------
 0| if (TRUE) {
@@ -13,5 +12,3 @@ if (TRUE) {
 2| } else {
 3| }
    -<
-
-[Insertion delimiter] = "\n"
