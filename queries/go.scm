@@ -251,37 +251,43 @@
   "}" @interior.end.startOf @branch.iteration.end.startOf @condition.iteration.end.startOf
 ) @value.domain
 
-;; The outermost if statement
+;;!! if () {} else {}
 (
   (if_statement) @ifStatement @statement @branch.iteration
   (#not-parent-type? @ifStatement if_statement)
 )
 
-;; first if in an if-else chain
+;;!! if () {}
 (
   (if_statement
-    consequence: (block) @branch.end.endOf
-  ) @branch.start.startOf
-  (#not-parent-type? @branch.start.startOf if_statement)
-  (#insertion-delimiter! @branch.start.startOf " ")
+    "if" @branch.start @branch.removal.start
+    condition: (_) @condition
+    consequence: (_) @branch.end @branch.removal.end
+    "else"? @branch.removal.end.startOf
+    alternative: (if_statement)? @branch.removal.end.startOf
+  ) @condition.domain
+  (#not-parent-type? @condition.domain if_statement)
+  (#insertion-delimiter! @branch.start " ")
+  (#shrink-to-match! @condition "^\\(?(?<keep>[^)]*)\\)?$")
 )
 
-;; internal if in an if-else chain
+;;!! else if () {}
 (if_statement
-  "else" @branch.start
+  "else" @branch.start @condition.domain.start
   alternative: (if_statement
-    consequence: (block) @branch.end
+    condition: (_) @condition
+    consequence: (_) @branch.end @condition.domain.end
   )
   (#insertion-delimiter! @branch.start " ")
+  (#shrink-to-match! @condition "^\\(?(?<keep>[^)]*)\\)?$")
 )
 
-;; final else branch in an if-else chain
-(
-  (if_statement
-    "else" @branch.start.startOf
-    alternative: (block)
-  ) @branch.end.endOf
-  (#insertion-delimiter! @branch.start.startOf " ")
+;;!! else {}
+
+(if_statement
+  "else" @branch.start
+  alternative: (block) @branch.end
+  (#insertion-delimiter! @branch.start " ")
 )
 
 [
@@ -355,23 +361,6 @@
 (method_declaration
   result: (_) @type
 ) @_.domain
-
-;;!! if true {}
-(
-  (_
-    condition: (_) @condition
-  ) @_.domain
-  (#not-type? @condition parenthesized_expression)
-  (#not-type? @_.domain for_clause)
-)
-
-;;!! if (true) {}
-(
-  (_
-    condition: (parenthesized_expression) @condition
-  ) @_.domain
-  (#child-range! @condition 0 -1 true true)
-)
 
 ;;!! for i := 0; i < size; i++ {}
 ;;!              ^^^^^^^^
