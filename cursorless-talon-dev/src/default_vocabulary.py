@@ -12,10 +12,48 @@ tag: user.cursorless_default_vocabulary
 """
 
 # https://github.com/talonhub/community/blob/9acb6c9659bb0c9b794a7b7126d025603b4ed726/core/keys/keys.py#L10
-initial_default_alphabet = "air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip".split()
+initial_default_alphabet = [
+    "air",
+    "bat",
+    "cap",
+    "drum",
+    "each",
+    "fine",
+    "gust",
+    "harp",
+    "sit",
+    "jury",
+    "crunch",
+    "look",
+    "made",
+    "near",
+    "odd",
+    "pit",
+    "quench",
+    "red",
+    "sun",
+    "trap",
+    "urge",
+    "vest",
+    "whale",
+    "plex",
+    "yank",
+    "zip",
+]
 
 # https://github.com/talonhub/community/blob/9acb6c9659bb0c9b794a7b7126d025603b4ed726/core/keys/keys.py#L24
-digits = "zero one two three four five six seven eight nine".split()
+digits = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+]
 
 # https://github.com/talonhub/community/blob/9acb6c9659bb0c9b794a7b7126d025603b4ed726/core/keys/keys.py#L139C1-L171C2
 punctuation_words = {
