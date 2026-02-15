@@ -665,19 +665,23 @@
   ")" @name.iteration.end.startOf @value.iteration.end.startOf
 )
 
-operators: [
-  "<"
-  "<="
-  ">"
-  ">="
-] @disqualifyDelimiter
+(_
+  operators: [
+    "<"
+    ">"
+    "<="
+    ">="
+  ] @disqualifyDelimiter
+)
 
-operator: [
-  "<<"
-  "<<="
-  ">>"
-  ">>="
-] @disqualifyDelimiter
+(_
+  operator: [
+    "<<"
+    ">>"
+    "<<="
+    ">>="
+  ] @disqualifyDelimiter
+)
 
 (function_definition
   "->" @disqualifyDelimiter
