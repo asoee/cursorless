@@ -9,21 +9,24 @@ import { openNewEditor, runCursorlessAction } from "@cursorless/vscode-common";
 import assert from "assert";
 import * as vscode from "vscode";
 import { endToEndTestSetup } from "../endToEndTestSetup";
+import { isCI } from "../isCI";
+import { isMac } from "@cursorless/node-common";
 
 const testData = generateTestData(100);
-
-const smallThresholdMs = 100;
-const largeThresholdMs = 600;
-const xlThresholdMs = 800;
+const multiplier = calculateMultiplier();
+const smallThresholdMs = 50 * multiplier;
+const largeThresholdMs = 300 * multiplier;
+const xlThresholdMs = 400 * multiplier;
+const thresholds = [smallThresholdMs, largeThresholdMs, xlThresholdMs];
 
 type ModifierType = "containing" | "previous" | "every";
 
-suite("Performance", async function () {
+suite(`Performance ${thresholds.join("/")} ms`, async function () {
   endToEndTestSetup(this);
 
   let previousTitle = "";
 
-  // Before each test, print the test title. This is done we have the test
+  // Before each test, print the test title. This is done so we have the test
   // title before the test run time / duration.
   this.beforeEach(function () {
     const title = this.currentTest!.title;
@@ -197,10 +200,10 @@ async function testPerformanceCallback(
 
   const duration = Math.round(performance.now() - start);
 
-  console.log(`      ${duration} ms`);
+  console.log(`      ${duration} / ${thresholdMs} ms`);
 
   assert.ok(
-    duration < thresholdMs,
+    duration <= thresholdMs,
     `Duration ${duration}ms exceeds threshold ${thresholdMs}ms`,
   );
 }
@@ -254,4 +257,18 @@ function generateTestData(n: number): string {
     new Array(n).fill("").map((_, i) => [i.toString(), value]),
   );
   return JSON.stringify(obj, null, 2);
+}
+
+function calculateMultiplier() {
+  // The GitHub test runner is generally slower than running tests locally, so
+  // we increase the thresholds in CI. We do this for all platforms, but
+  // especially for macOS since the GitHub test runner for macOS is particularly
+  // slow.
+  if (isCI()) {
+    if (isMac()) {
+      return 3;
+    }
+    return 2;
+  }
+  return 1;
 }
