@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 
-import { fontFamily } from "tailwindcss/defaultTheme";
+import defaultTheme from "tailwindcss/defaultTheme";
 import { readFileSync } from "node:fs";
 
 const CONTENT_RATIO = 1000 / 814;
@@ -57,20 +57,23 @@ export default {
         stretched: { raw: "(min-aspect-ratio: 2/1), (max-aspect-ratio: 1/1)" },
       },
       fontFamily: {
-        mono: ["Inconsolata", ...fontFamily.mono],
-        monoWide: ["Inconsolata-SemiExpanded", ...fontFamily.mono],
+        mono: ["Inconsolata", ...defaultTheme.fontFamily.mono],
+        "mono-wide": [
+          "Inconsolata-SemiExpanded",
+          ...defaultTheme.fontFamily.mono,
+        ],
       },
       width: {
-        smBase: smallWidth,
-        stretchedBase: stretchedWidth,
+        "sm-base": smallWidth,
+        "stretched-base": stretchedWidth,
       },
       height: {
-        smBase: smallHeight,
-        stretchedBase: stretchedHeight,
+        "sm-base": smallHeight,
+        "stretched-base": stretchedHeight,
       },
       fontSize: {
-        smBase: smallFontSize,
-        stretchedBase: stretchedFontSize,
+        "sm-base": smallFontSize,
+        "stretched-base": stretchedFontSize,
         xs: "1.2em",
         lg: "1.8em",
         "2xl": "2.4em",

@@ -11,6 +11,8 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "type.argument.formal.iteration": supported,
   "type.argument.formal.method": supported,
   "type.argument.formal.method.iteration": supported,
+  "type.argument.formal.lambda": supported,
+  "type.argument.formal.lambda.iteration": supported,
   "type.argument.formal.constructor": supported,
   "type.argument.formal.constructor.iteration": supported,
   "type.argument.catch": supported,
@@ -22,18 +24,25 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "type.interface": supported,
   "type.enum": supported,
   "type.return": supported,
-  "type.variable": supported,
+  "type.constant": supported,
+  "type.variable.uninitialized": supported,
+  "type.variable.initialized": supported,
   "type.typeArgument": supported,
   "type.typeArgument.iteration": supported,
   "type.iteration.block": supported,
   "type.iteration.class": supported,
   "type.iteration.interface": supported,
   "type.iteration.document": supported,
+  "type.return.method": supported,
+
+  "functionCall.generic": supported,
+  "functionCallee.generic": supported,
 
   "name.interface": supported,
   "name.enum": supported,
   "name.field.interface": supported,
   "name.field.enum": supported,
+  "name.typeAlias": supported,
   "name.iteration.interface": supported,
   "name.iteration.enum": supported,
 
@@ -41,6 +50,7 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.enum": supported,
   "statement.field.interface": supported,
   "statement.iteration.interface": supported,
+  "statement.typeAlias": supported,
 
   "value.typeAlias": supported,
   "value.field.enum": supported,
@@ -62,6 +72,12 @@ export const typescriptScopeSupport: LanguageScopeSupportFacetMap = {
   "interior.element": notApplicable,
   "textFragment.element": notApplicable,
 
+  // Enum calls
+  "functionCall.enum": notApplicable,
+  "functionCallee.enum": notApplicable,
+
   // Miscellaneous
   "type.foreach": notApplicable,
+  "statement.package": notApplicable,
+  "value.field.interface": notApplicable,
 };

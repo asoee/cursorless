@@ -4,10 +4,10 @@ import { ScopeSupportFacetLevel } from "./scopeSupportFacets.types";
 const { supported, notApplicable } = ScopeSupportFacetLevel;
 
 export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
-  "statement.variable": supported,
+  "statement.variable.initialized": supported,
   "statement.iteration.document": supported,
 
-  "name.variable": supported,
+  "name.variable.initialized": supported,
   "name.iteration.document": supported,
 
   "key.mapPair": supported,
@@ -87,6 +87,7 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "name.method": notApplicable,
   "type.argument.formal.method": notApplicable,
   "type.argument.formal.method.iteration": notApplicable,
+  "type.return.method": notApplicable,
   "value.argument.formal.method": notApplicable,
   "value.argument.formal.method.iteration": notApplicable,
   "functionCall.method": notApplicable,
@@ -117,8 +118,13 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "type.argument.formal.iteration": notApplicable,
   "value.argument.formal": notApplicable,
   "value.argument.formal.iteration": notApplicable,
+
+  // Function calls
   functionCall: notApplicable,
+  "functionCall.generic": notApplicable,
+  "statement.functionCall": notApplicable,
   functionCallee: notApplicable,
+  "functionCallee.generic": notApplicable,
   "functionCall.chain": notApplicable,
   "functionCallee.chain": notApplicable,
 
@@ -130,6 +136,10 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "argument.formal.lambda.singleLine": notApplicable,
   "argument.formal.lambda.multiLine": notApplicable,
   "argument.formal.lambda.iteration": notApplicable,
+  "name.argument.formal.lambda": notApplicable,
+  "name.argument.formal.lambda.iteration": notApplicable,
+  "type.argument.formal.lambda": notApplicable,
+  "type.argument.formal.lambda.iteration": notApplicable,
   "value.return.lambda": notApplicable,
   "interior.lambda": notApplicable,
 
@@ -148,6 +158,10 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.yield": notApplicable,
   "value.yield": notApplicable,
 
+  // Throw statement
+  "statement.throw": notApplicable,
+  "value.throw": notApplicable,
+
   // Interface
   "statement.interface": notApplicable,
   "statement.field.interface": notApplicable,
@@ -158,10 +172,13 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "name.iteration.interface": notApplicable,
   "type.interface": notApplicable,
   "type.field.interface": notApplicable,
+  "value.field.interface": notApplicable,
   "type.iteration.interface": notApplicable,
 
   // Enum
   "statement.enum": notApplicable,
+  "functionCallee.enum": notApplicable,
+  "functionCall.enum": notApplicable,
   "name.enum": notApplicable,
   "name.field.enum": notApplicable,
   "name.iteration.enum": notApplicable,
@@ -229,16 +246,16 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.resource": notApplicable,
   "interior.resource": notApplicable,
   "name.resource": notApplicable,
-  "name.resource.iteration": notApplicable,
   "type.resource": notApplicable,
-  "type.resource.iteration": notApplicable,
   "value.resource": notApplicable,
-  "value.resource.iteration": notApplicable,
 
-  // Pattern destruction
-  "name.assignment.pattern": notApplicable,
-  "name.variable.pattern": notApplicable,
-  "value.variable.pattern": notApplicable,
+  // Pattern destructuring
+  "statement.variable.destructuring": notApplicable,
+  "statement.assignment.destructuring": notApplicable,
+  "name.assignment.destructuring": notApplicable,
+  "name.variable.destructuring": notApplicable,
+  "value.variable.destructuring": notApplicable,
+  "value.assignment.destructuring": notApplicable,
 
   // String
   "string.singleLine": notApplicable,
@@ -288,6 +305,8 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
 
   // Type alias
   "type.alias": notApplicable,
+  "statement.typeAlias": notApplicable,
+  "name.typeAlias": notApplicable,
   "value.typeAlias": notApplicable,
 
   // Collection item
@@ -304,8 +323,12 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
 
   // Assignment
   "statement.assignment": notApplicable,
+  "statement.update": notApplicable,
+  "statement.assignment.compound": notApplicable,
   "name.assignment": notApplicable,
+  "name.assignment.compound": notApplicable,
   "value.assignment": notApplicable,
+  "value.assignment.compound": notApplicable,
 
   // Block
   "name.iteration.block": notApplicable,
@@ -313,17 +336,32 @@ export const propertiesScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.iteration.block": notApplicable,
 
   // Miscellaneous statements
+  "statement.misc": notApplicable,
   "statement.break": notApplicable,
   "statement.continue": notApplicable,
+  "statement.package": notApplicable,
+  "statement.import": notApplicable,
 
-  // Miscellaneous
-  "statement.misc": notApplicable,
+  // Types
   "type.cast": notApplicable,
   "type.iteration.block": notApplicable,
   "type.iteration.document": notApplicable,
   "type.typeArgument.iteration": notApplicable,
   "type.typeArgument": notApplicable,
-  "type.variable": notApplicable,
+  "type.variable.uninitialized": notApplicable,
+  "type.variable.initialized": notApplicable,
+
+  // Constant
+  "statement.constant": notApplicable,
+  "name.constant": notApplicable,
+  "value.constant": notApplicable,
+  "type.constant": notApplicable,
+
+  // Uninitialized variables
+  "statement.variable.uninitialized": notApplicable,
+  "name.variable.uninitialized": notApplicable,
+
+  // Miscellaneous
   disqualifyDelimiter: notApplicable,
   environment: notApplicable,
   fieldAccess: notApplicable,

@@ -22,8 +22,8 @@
     "@cursorless/common": "workspace:*",
     "@cursorless/node-common": "workspace:*",
     "@cursorless/vscode-common": "workspace:*",
-    "immer": "^11.0.0",
-    "lodash-es": "^4.17.21"
+    "immer": "^11.1.4",
+    "lodash-es": "^4.17.23"
   },
   "devDependencies": {
     "@types/chai": "^5.2.3",
@@ -32,11 +32,11 @@
     "@types/mocha": "^10.0.10",
     "@types/semver": "^7.7.1",
     "@types/sinon": "^21.0.0",
-    "@types/vscode": "1.95.0",
-    "chai": "^6.2.1",
+    "@types/vscode": "1.98.0",
+    "chai": "^6.2.2",
     "js-yaml": "^4.1.1",
     "mocha": "^11.7.5",
-    "semver": "^7.7.3",
-    "sinon": "^21.0.0"
+    "semver": "^7.7.4",
+    "sinon": "^21.0.1"
   }
 }

@@ -22,7 +22,6 @@ import {
   FileSystemCommandHistoryStorage,
   FileSystemRawTreeSitterQueryProvider,
   FileSystemTalonSpokenForms,
-  getFixturePath,
 } from "@cursorless/node-common";
 import {
   ScopeTestRecorder,
@@ -35,6 +34,7 @@ import {
   toVscodeRange,
 } from "@cursorless/vscode-common";
 import * as crypto from "crypto";
+import { pull } from "lodash-es";
 import * as os from "node:os";
 import * as path from "node:path";
 import * as vscode from "vscode";
@@ -85,7 +85,6 @@ export async function activate(
           vscodeIDE,
           new FakeIDE(),
           vscodeIDE.runMode === "test",
-          getFixturePath("cursorless-snippets"),
         );
 
   const fakeCommandServerApi = new FakeCommandServerApi();
@@ -97,10 +96,7 @@ export async function activate(
   const treeSitter = createTreeSitter(parseTreeApi);
   const talonSpokenForms = new FileSystemTalonSpokenForms(fileSystem);
 
-  // NOTE: do not await on snippet loading and hats initialization because we don't want to
-  // block extension activation
   const snippets = new VscodeSnippets(normalizedIde);
-  void snippets.init();
 
   const treeSitterQueryProvider = new FileSystemRawTreeSitterQueryProvider(
     normalizedIde,
@@ -146,6 +142,8 @@ export async function activate(
   const scopeTestRecorder = new ScopeTestRecorder(normalizedIde);
 
   const statusBarItem = StatusBarItem.create("cursorless.showQuickPick");
+  context.subscriptions.push(statusBarItem);
+
   const keyboardCommands = KeyboardCommands.create(
     context,
     vscodeApi,
@@ -193,7 +191,6 @@ export async function activate(
     vscodeTutorial,
     installationDependencies,
     storedTargets,
-    snippets,
   );
 
   void new ReleaseNotes(vscodeApi, context, normalizedIde.messages).maybeShow();
@@ -287,14 +284,16 @@ function createScopeVisualizer(
       );
       scopeVisualizer.start();
       currentScopeType = scopeType;
-      listeners.forEach((listener) => listener(scopeType, visualizationType));
+      listeners
+        .slice()
+        .forEach((listener) => listener(scopeType, visualizationType));
     },
 
     stop() {
       scopeVisualizer?.dispose();
       scopeVisualizer = undefined;
       currentScopeType = undefined;
-      listeners.forEach((listener) => listener(undefined, undefined));
+      listeners.slice().forEach((listener) => listener(undefined, undefined));
     },
 
     get scopeType() {
@@ -306,7 +305,7 @@ function createScopeVisualizer(
 
       return {
         dispose() {
-          listeners.splice(listeners.indexOf(listener), 1);
+          pull(listeners, listener);
         },
       };
     },

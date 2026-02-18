@@ -47,7 +47,9 @@ export function ScopeVisualizer({ languageId, scopeTypeType }: Props) {
   const [scopes] = useState(
     getScopeFixtures(scopeTests, languageId, scopeTypeType),
   );
-  const [rangeType, setRangeType] = useState<RangeType>("content");
+  const [rangeType, setRangeType] = useState<RangeType>(
+    scopeTypeType != null ? "blend" : "content",
+  );
   const [renderWhitespace, setRenderWhitespace] = useState(
     scopeTypeType != null,
   );
@@ -79,6 +81,7 @@ export function ScopeVisualizer({ languageId, scopeTypeType }: Props) {
         >
           <option value="content">Content range</option>
           <option value="removal">Removal range</option>
+          <option value="blend">Blended ranges</option>
         </select>
 
         <label className="ml-2">

@@ -26,6 +26,7 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
 
   functionCall: supported,
   functionCallee: supported,
+  "statement.functionCall": supported,
   "argument.actual.singleLine": supported,
   "argument.actual.multiLine": supported,
   "argument.actual.iteration": supported,
@@ -34,17 +35,35 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
 
   /* NOT APPLICABLE */
 
-  // Variable
-  "statement.variable": notApplicable,
+  // Assignment
   "statement.assignment": notApplicable,
+  "statement.assignment.compound": notApplicable,
+  "statement.assignment.destructuring": notApplicable,
   "name.assignment": notApplicable,
-  "name.assignment.pattern": notApplicable,
-  "name.variable": notApplicable,
-  "name.variable.pattern": notApplicable,
-  "type.variable": notApplicable,
+  "name.assignment.compound": notApplicable,
+  "name.assignment.destructuring": notApplicable,
   "value.assignment": notApplicable,
+  "value.assignment.compound": notApplicable,
+  "value.assignment.destructuring": notApplicable,
+  "statement.update": notApplicable,
+
+  // Variable
+  "statement.variable.uninitialized": notApplicable,
+  "statement.variable.initialized": notApplicable,
+  "statement.variable.destructuring": notApplicable,
+  "name.variable.uninitialized": notApplicable,
+  "name.variable.initialized": notApplicable,
+  "name.variable.destructuring": notApplicable,
+  "type.variable.uninitialized": notApplicable,
+  "type.variable.initialized": notApplicable,
   "value.variable": notApplicable,
-  "value.variable.pattern": notApplicable,
+  "value.variable.destructuring": notApplicable,
+
+  // Constant
+  "statement.constant": notApplicable,
+  "name.constant": notApplicable,
+  "value.constant": notApplicable,
+  "type.constant": notApplicable,
 
   // Class
   class: notApplicable,
@@ -110,6 +129,7 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
   "name.method": notApplicable,
   "type.argument.formal.method": notApplicable,
   "type.argument.formal.method.iteration": notApplicable,
+  "type.return.method": notApplicable,
   "value.argument.formal.method": notApplicable,
   "value.argument.formal.method.iteration": notApplicable,
   "functionCall.method": notApplicable,
@@ -143,12 +163,18 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
   "argument.formal.lambda.singleLine": notApplicable,
   "argument.formal.lambda.multiLine": notApplicable,
   "argument.formal.lambda.iteration": notApplicable,
+  "name.argument.formal.lambda": notApplicable,
+  "name.argument.formal.lambda.iteration": notApplicable,
+  "type.argument.formal.lambda": notApplicable,
+  "type.argument.formal.lambda.iteration": notApplicable,
   "value.return.lambda": notApplicable,
   "interior.lambda": notApplicable,
 
   // Function call
   "functionCall.chain": notApplicable,
+  "functionCall.generic": notApplicable,
   "functionCallee.chain": notApplicable,
+  "functionCallee.generic": notApplicable,
   "name.argument.actual": notApplicable,
   "name.argument.actual.iteration": notApplicable,
   "value.argument.actual": notApplicable,
@@ -162,6 +188,9 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
   // Yield statement
   "statement.yield": notApplicable,
   "value.yield": notApplicable,
+  // Throw statement
+  "statement.throw": notApplicable,
+  "value.throw": notApplicable,
 
   // Interface
   "statement.interface": notApplicable,
@@ -173,10 +202,13 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
   "name.iteration.interface": notApplicable,
   "type.interface": notApplicable,
   "type.field.interface": notApplicable,
+  "value.field.interface": notApplicable,
   "type.iteration.interface": notApplicable,
 
   // Enum
   "statement.enum": notApplicable,
+  "functionCallee.enum": notApplicable,
+  "functionCall.enum": notApplicable,
   "name.enum": notApplicable,
   "name.field.enum": notApplicable,
   "name.iteration.enum": notApplicable,
@@ -251,11 +283,8 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
   "statement.resource": notApplicable,
   "interior.resource": notApplicable,
   "name.resource": notApplicable,
-  "name.resource.iteration": notApplicable,
   "type.resource": notApplicable,
-  "type.resource.iteration": notApplicable,
   "value.resource": notApplicable,
-  "value.resource.iteration": notApplicable,
 
   // String
   "string.singleLine": notApplicable,
@@ -295,11 +324,15 @@ export const latexScopeSupport: LanguageScopeSupportFacetMap = {
 
   // Type alias
   "type.alias": notApplicable,
+  "name.typeAlias": notApplicable,
+  "statement.typeAlias": notApplicable,
   "value.typeAlias": notApplicable,
 
   // Miscellaneous statements
   "statement.break": notApplicable,
   "statement.continue": notApplicable,
+  "statement.package": notApplicable,
+  "statement.import": notApplicable,
   "statement.misc": notApplicable,
   "statement.iteration.document": notApplicable,
   "statement.iteration.block": notApplicable,
