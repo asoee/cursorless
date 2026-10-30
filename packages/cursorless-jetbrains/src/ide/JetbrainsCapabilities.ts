@@ -1,4 +1,4 @@
-import type { Capabilities, CommandCapabilityMap } from "@cursorless/common";
+import type { Capabilities, CommandCapabilityMap } from "@cursorless/lib-common";
 
 const COMMAND_CAPABILITIES: CommandCapabilityMap = {
   clipboardCopy: { acceptsLocation: true },
@@ -10,18 +10,18 @@ const COMMAND_CAPABILITIES: CommandCapabilityMap = {
   quickFix: { acceptsLocation: true },
   revealDefinition: { acceptsLocation: true },
   revealTypeDefinition: { acceptsLocation: true },
-  showHover: undefined,
-  showDebugHover: undefined,
+  showHover: { acceptsLocation: true },
+  showDebugHover: { acceptsLocation: true },
   extractVariable: { acceptsLocation: true },
   fold: { acceptsLocation: true },
   highlight: { acceptsLocation: true },
   unfold: { acceptsLocation: true },
   showReferences: { acceptsLocation: true },
   insertLineAfter: { acceptsLocation: true },
-  gitAccept: { acceptsLocation: false },
-  gitRevert: { acceptsLocation: false },
-  gitStage: { acceptsLocation: false },
-  gitUnstage: { acceptsLocation: false },
+  gitAccept: { acceptsLocation: true },
+  gitRevert: { acceptsLocation: true },
+  gitStage: { acceptsLocation: true },
+  gitUnstage: { acceptsLocation: true },
 };
 
 export class JetbrainsCapabilities implements Capabilities {
