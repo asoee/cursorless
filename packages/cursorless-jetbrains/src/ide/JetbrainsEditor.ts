@@ -1,17 +1,18 @@
-import type { Selection } from "@cursorless/common";
 import {
+  Position,
+  Range,
+  Selection,
   selectionsEqual,
   type Edit,
   type EditableTextEditor,
   type GeneralizedRange,
   type InMemoryTextDocument,
   type OpenLinkOptions,
-  type Range,
   type RevealLineAt,
   type SetSelectionsOpts,
   type TextEditor,
   type TextEditorOptions,
-} from "@cursorless/common";
+} from "@cursorless/lib-common";
 import { setSelections } from "./setSelections";
 import type { JetbrainsIDE } from "./JetbrainsIDE";
 import { jetbrainsPerformEdits } from "./jetbrainsPerformEdits";
@@ -67,7 +68,29 @@ export class JetbrainsEditor implements EditableTextEditor {
   }
 
   async clipboardPaste(): Promise<void> {
-    await this.ide.clipboard.paste(this.id);
+    // The IDE pastes with its own paste action and returns the edits it made. Report them now, as VS Code does
+    // before its paste command resolves: the IDE's own change notification comes later and covers the whole
+    // visible range, so ranges the engine tracks (the "that" mark and the flash) would miss the pasted text
+    const changesJson = this.client.clipboardPaste(this.id);
+    if (!changesJson) {
+      return;
+    }
+    const pasteChanges = JSON.parse(changesJson) as {
+      rangeOffset: number;
+      rangeLength: number;
+      text: string;
+    }[];
+    for (const { rangeOffset, rangeLength, text } of pasteChanges) {
+      const range = new Range(
+        this.document.positionAt(rangeOffset),
+        this.document.positionAt(rangeOffset + rangeLength),
+      );
+      const contentChanges = this.document.edit([{ range, text }]);
+      this.ide.emitDidChangeTextDocument({
+        document: this.document,
+        contentChanges,
+      });
+    }
   }
 
   async indentLine(ranges: Range[]): Promise<void> {
@@ -94,8 +117,8 @@ export class JetbrainsEditor implements EditableTextEditor {
     await this.client.insertLineAfter(this.id, JSON.stringify(ranges));
   }
 
-  focus(): Promise<void> {
-    throw new Error("focus not implemented.");
+  async focus(): Promise<void> {
+    await this.client.focusEditor(this.id);
   }
 
   revealRange(_range: Range): Promise<void> {
@@ -140,9 +163,22 @@ export class JetbrainsEditor implements EditableTextEditor {
   }
 
   async toggleBreakpoint(
-    _ranges?: GeneralizedRange[] | undefined,
+    ranges?: GeneralizedRange[] | undefined,
   ): Promise<void> {
-    throw new Error("toggleBreakpoint not implemented.");
+    // ToggleLineBreakpoint acts on the caret's line, so toggle one range at a time
+    for (const range of ranges ?? []) {
+      const position =
+        range.type === "line"
+          ? new Position(range.start, 0)
+          : range.start;
+      const command = new JetbrainsEditorCommand(
+        [new Range(position, position)],
+        true,
+        false,
+        "ToggleLineBreakpoint",
+      );
+      await this.client.executeRangeCommand(this.id, JSON.stringify(command));
+    }
   }
 
   async toggleLineComment(ranges?: Range[] | undefined): Promise<void> {
@@ -161,7 +197,7 @@ export class JetbrainsEditor implements EditableTextEditor {
   ): Promise<void> {
     console.log("insertSnippet" + snippet);
     if (ranges != null) {
-      await this.setSelections(ranges.map((range) => range.toSelection(false)));
+      await this.setSelections(ranges.map((range) => Selection.fromRange(range)));
     }
 
     await this.client.insertSnippet(this.id, snippet);
@@ -217,12 +253,24 @@ export class JetbrainsEditor implements EditableTextEditor {
     await this.client.executeRangeCommand(this.id, JSON.stringify(command));
   }
 
-  showHover(_range?: Range | undefined): Promise<void> {
-    throw new Error("showHover not implemented.");
+  async showHover(range?: Range | undefined): Promise<void> {
+    const command = new JetbrainsEditorCommand(
+      range ? [range] : [],
+      true,
+      false,
+      "QuickJavaDoc",
+    );
+    await this.client.executeRangeCommand(this.id, JSON.stringify(command));
   }
 
-  showDebugHover(_range?: Range | undefined): Promise<void> {
-    throw new Error("showDebugHover not implemented.");
+  async showDebugHover(range?: Range | undefined): Promise<void> {
+    const command = new JetbrainsEditorCommand(
+      range ? [range] : [],
+      true,
+      false,
+      "QuickEvaluateExpression",
+    );
+    await this.client.executeRangeCommand(this.id, JSON.stringify(command));
   }
 
   async extractVariable(range?: Range | undefined): Promise<void> {
@@ -251,11 +299,19 @@ export class JetbrainsEditor implements EditableTextEditor {
     throw new Error("gitRevert not implemented.");
   }
 
-  async gitStage(_range?: Range): Promise<void> {
-    throw new Error("gitStage not implemented.");
+  async gitStageFile(): Promise<void> {
+    throw new Error("gitStageFile not implemented.");
   }
 
-  async gitUnstage(_range?: Range): Promise<void> {
-    throw new Error("gitUnstage not implemented.");
+  async gitUnstageFile(): Promise<void> {
+    throw new Error("gitUnstageFile not implemented.");
+  }
+
+  async gitStageRange(_range?: Range): Promise<void> {
+    throw new Error("gitStageRange not implemented.");
+  }
+
+  async gitUnstageRange(_range?: Range): Promise<void> {
+    throw new Error("gitUnstageRange not implemented.");
   }
 }

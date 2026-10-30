@@ -1,4 +1,4 @@
-import { InMemoryTextDocument, Notifier, Range } from "@cursorless/common";
+import { InMemoryTextDocument, Notifier, Range } from "@cursorless/lib-common";
 import type {
   Event,
   FlashDescriptor,
@@ -17,7 +17,7 @@ import type {
   TextEditor,
   WorkspaceFolder,
   NotebookEditor,
-} from "@cursorless/common";
+} from "@cursorless/lib-common";
 import { pull } from "lodash-es";
 import { JetbrainsCapabilities } from "./JetbrainsCapabilities";
 import { fromJetbrainsContentChange } from "./JetbrainsEvents";
@@ -69,8 +69,8 @@ export class JetbrainsIDE implements IDE {
     configuration: JetbrainsConfiguration,
   ) {
     this.configuration = configuration;
-    this.keyValueStore = new JetbrainsKeyValueStore();
-    this.messages = new JetbrainsMessages();
+    this.keyValueStore = new JetbrainsKeyValueStore(this.client);
+    this.messages = new JetbrainsMessages(this.client);
     this.clipboard = new JetbrainsClipboard(this.client);
     this.capabilities = new JetbrainsCapabilities();
     //     this.editorMap = new Map<Window, JetbrainsTextEditorImpl>();
@@ -117,8 +117,7 @@ export class JetbrainsIDE implements IDE {
   }
 
   get cursorlessVersion(): string {
-    console.log("get cursorlessVersion");
-    throw new Error("cursorlessVersion not implemented.");
+    return `jetbrains-${this.client.pluginVersion()}`;
   }
 
   get workspaceFolders(): readonly WorkspaceFolder[] | undefined {
@@ -155,14 +154,23 @@ export class JetbrainsIDE implements IDE {
   }
 
   public async findInDocument(
-    _query: string,
-    _editor: TextEditor,
+    query: string,
+    editor?: TextEditor,
   ): Promise<void> {
-    throw Error("findInDocument Not implemented");
+    const editorId = (editor ?? this.activeEditor)?.id;
+    if (editorId == null) {
+      throw Error("findInDocument: no editor to search in");
+    }
+    this.client.findInDocument(editorId, query);
   }
 
-  public async findInWorkspace(_query: string): Promise<void> {
-    throw Error("findInWorkspace Not implemented");
+  public async findInWorkspace(query: string): Promise<void> {
+    // The active editor tells the IDE which project to search
+    const editorId = this.activeEditor?.id;
+    if (editorId == null) {
+      throw Error("findInWorkspace: no active editor");
+    }
+    this.client.findInWorkspace(editorId, query);
   }
 
   public async openTextDocument(_path: string): Promise<TextEditor> {
@@ -170,20 +178,32 @@ export class JetbrainsIDE implements IDE {
   }
 
   public async openUntitledTextDocument(
-    _options: OpenUntitledTextDocumentOptions,
+    options: OpenUntitledTextDocumentOptions = {},
   ): Promise<TextEditor> {
-    throw Error("openUntitledTextDocument Not implemented");
+    const editorState: EditorState = JSON.parse(
+      this.client.openUntitledTextDocument(
+        options.content ?? "",
+        options.language ?? null,
+      ),
+    );
+    return this.updateTextEditors(editorState);
   }
 
-  public async showInputBox(_options?: any): Promise<string | undefined> {
-    throw Error("showInputBox Not implemented");
+  public async showInputBox(options?: any): Promise<string | undefined> {
+    return this.client.showInputBox(JSON.stringify(options ?? {})) ?? undefined;
   }
 
   public async executeCommand<T>(
-    _command: string,
-    ..._args: any[]
+    command: string,
+    ...args: any[]
   ): Promise<T | undefined> {
-    throw new Error("executeCommand Method not implemented.");
+    // command is an IDE action id; it runs on the active editor, whose selection the engine has already set
+    const editorId = this.activeEditor?.id;
+    if (editorId == null) {
+      throw Error(`executeCommand ${command}: no active editor`);
+    }
+    this.client.executeCommand(editorId, command, JSON.stringify(args));
+    return undefined;
   }
 
   public onDidChangeTextDocument(
