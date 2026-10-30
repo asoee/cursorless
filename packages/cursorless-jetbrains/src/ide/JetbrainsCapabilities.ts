@@ -1,4 +1,4 @@
-import type { Capabilities, CommandCapabilityMap } from "@cursorless/common";
+import type { Capabilities, CommandCapabilityMap } from "@cursorless/lib-common";
 
 const COMMAND_CAPABILITIES: CommandCapabilityMap = {
   clipboardCopy: { acceptsLocation: true },
@@ -10,8 +10,8 @@ const COMMAND_CAPABILITIES: CommandCapabilityMap = {
   quickFix: { acceptsLocation: true },
   revealDefinition: { acceptsLocation: true },
   revealTypeDefinition: { acceptsLocation: true },
-  showHover: undefined,
-  showDebugHover: undefined,
+  showHover: { acceptsLocation: true },
+  showDebugHover: { acceptsLocation: true },
   extractVariable: { acceptsLocation: true },
   fold: { acceptsLocation: true },
   highlight: { acceptsLocation: true },
