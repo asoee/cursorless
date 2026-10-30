@@ -69,7 +69,7 @@ export class JetbrainsIDE implements IDE {
     configuration: JetbrainsConfiguration,
   ) {
     this.configuration = configuration;
-    this.keyValueStore = new JetbrainsKeyValueStore();
+    this.keyValueStore = new JetbrainsKeyValueStore(this.client);
     this.messages = new JetbrainsMessages();
     this.clipboard = new JetbrainsClipboard(this.client);
     this.capabilities = new JetbrainsCapabilities();
@@ -155,14 +155,23 @@ export class JetbrainsIDE implements IDE {
   }
 
   public async findInDocument(
-    _query: string,
-    _editor: TextEditor,
+    query: string,
+    editor?: TextEditor,
   ): Promise<void> {
-    throw Error("findInDocument Not implemented");
+    const editorId = (editor ?? this.activeEditor)?.id;
+    if (editorId == null) {
+      throw Error("findInDocument: no editor to search in");
+    }
+    this.client.findInDocument(editorId, query);
   }
 
-  public async findInWorkspace(_query: string): Promise<void> {
-    throw Error("findInWorkspace Not implemented");
+  public async findInWorkspace(query: string): Promise<void> {
+    // The active editor tells the IDE which project to search
+    const editorId = this.activeEditor?.id;
+    if (editorId == null) {
+      throw Error("findInWorkspace: no active editor");
+    }
+    this.client.findInWorkspace(editorId, query);
   }
 
   public async openTextDocument(_path: string): Promise<TextEditor> {
@@ -175,15 +184,21 @@ export class JetbrainsIDE implements IDE {
     throw Error("openUntitledTextDocument Not implemented");
   }
 
-  public async showInputBox(_options?: any): Promise<string | undefined> {
-    throw Error("showInputBox Not implemented");
+  public async showInputBox(options?: any): Promise<string | undefined> {
+    return this.client.showInputBox(JSON.stringify(options ?? {})) ?? undefined;
   }
 
   public async executeCommand<T>(
-    _command: string,
-    ..._args: any[]
+    command: string,
+    ...args: any[]
   ): Promise<T | undefined> {
-    throw new Error("executeCommand Method not implemented.");
+    // command is an IDE action id; it runs on the active editor, whose selection the engine has already set
+    const editorId = this.activeEditor?.id;
+    if (editorId == null) {
+      throw Error(`executeCommand ${command}: no active editor`);
+    }
+    this.client.executeCommand(editorId, command, JSON.stringify(args));
+    return undefined;
   }
 
   public onDidChangeTextDocument(

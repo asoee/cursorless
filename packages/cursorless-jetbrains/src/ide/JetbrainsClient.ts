@@ -13,4 +13,13 @@ export interface JetbrainsClient {
   readQuery(filename: string): string | undefined;
   flashRanges(flashRangesJson: string): string | undefined;
   setHighlightRanges(highlightId: string | undefined, editorId: string, rangesJson: string): void;
+  findInDocument(editorId: string, query: string): void;
+  findInWorkspace(editorId: string, query: string): void;
+  focusEditor(editorId: string): void;
+  getFocusedElementType(): string | null;
+  keyValueGet(key: string): string | null;
+  keyValueSet(key: string, valueJson: string): void;
+  readTalonSpokenForms(): string | null;
+  showInputBox(optionsJson: string): string | null;
+  openSnippetFile(snippetName: string, directory: string): string;
 }
